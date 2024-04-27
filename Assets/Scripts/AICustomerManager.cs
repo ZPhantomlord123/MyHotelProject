@@ -137,7 +137,6 @@ public class AICustomerManager : MonoBehaviour
                 SetRoomAvailability(nextRoom, false);
 
                 DequeueCustomer(aiCustomer.gameObject);
-                Debug.Log("SIZE:" + customerQueue.Count);
                 MoveRemainingCustomersToNextSpot();
             }
         }

@@ -19,8 +19,6 @@ public class AreaController : MonoBehaviour
                 countdownTimer -= Time.deltaTime;
                 if (countdownTimer <= 0f)
                 {
-                    // Disable the specified GameObject when the timer reaches zero
-                    objectToEnableDisable.SetActive(false);
                     customerManager.DequeueFirstCustomer();
                     countdownTimer = countdownDuration; // Reset the countdown timer
                 }
@@ -47,6 +45,7 @@ public class AreaController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInside = false; // Player has left the area
+            objectToEnableDisable.SetActive(false);
         }
     }
 }
