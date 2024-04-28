@@ -5,6 +5,7 @@ public class CurrencyManager : MonoBehaviour
 {
     public static CurrencyManager instance;
     public int cash;
+    public int startingCash = 100; // Default starting cash
 
     public TextMeshProUGUI cashText; // Reference to the TextMeshProUGUI component
 
@@ -77,8 +78,13 @@ public class CurrencyManager : MonoBehaviour
 
     public void LoadCash()
     {
-        cash = PlayerPrefs.GetInt("Cash", 0);
+        cash = PlayerPrefs.GetInt("Cash", startingCash); // Load saved cash or use default starting cash
         Debug.Log($"Loaded cash: {cash}");
+    }
+
+    public bool HasEnoughCash(int amount)
+    {
+        return cash >= amount;
     }
 
     void UpdateCashText()
@@ -94,5 +100,4 @@ public class CurrencyManager : MonoBehaviour
             cashText.color = Color.green;
         }
     }
-
 }
