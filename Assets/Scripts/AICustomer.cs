@@ -30,7 +30,7 @@ public class AICustomer : MonoBehaviour
         // Set the destination to the target waypoint
         navMeshAgent.SetDestination(targetWaypoint.position);
 
-        // Set the customer state to MovingToRoom
+        // Set the customer state to walk in line
         ChangeState(CustomerState.WaitingInLine);
 
         // Subscribe to NavMeshAgent's arrival event
@@ -49,6 +49,11 @@ public class AICustomer : MonoBehaviour
 
     public void GoToRoom(Transform location)
     {
+        CashSpawner.instance.SpawnCash(transform.position+ new Vector3(-1.5f,1,1f));
+
+        // Set the customer state to MovingToRoom
+        ChangeState(Random.Range(0,2) == 0?CustomerState.WalkToRoom:CustomerState.RunToRoom);
+
         targetWaypoint = location;
         // Check if the room is available
         if (!customerManager.IsRoomAvailable(targetWaypoint))
@@ -76,6 +81,13 @@ public class AICustomer : MonoBehaviour
                 }
                 break;
             case CustomerState.WaitingInLine:
+                // Set animator speed parameter for movement animation
+                if (animator != null)
+                {
+                    animator.SetFloat("Speed", 5.0f);
+                    animator.SetBool("IsRunning", false); // Make sure IsRunning is false
+                    isMoving = true;
+                }
                 break;
             case CustomerState.WalkToRoom:
                 // Set animator speed parameter for movement animation
@@ -99,7 +111,7 @@ public class AICustomer : MonoBehaviour
     }
     private void Update()
     {
-        if(Vector3.Distance(transform.position, targetWaypoint.position) < 0.5f && isMoving)
+        if(Vector3.Distance(transform.position, targetWaypoint.position) < 0.1f && isMoving)
         {
             ChangeState(CustomerState.Idle);
             isMoving = false;

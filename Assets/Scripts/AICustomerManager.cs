@@ -133,7 +133,7 @@ public class AICustomerManager : MonoBehaviour
             if (aiCustomer != null)
             {
                 Transform nextRoom = GetNextAvailableRoom();
-                aiCustomer.GoToRoom(nextRoom);
+                aiCustomer?.GoToRoom(nextRoom);
                 SetRoomAvailability(nextRoom, false);
 
                 DequeueCustomer(aiCustomer.gameObject);
